@@ -1,17 +1,28 @@
 <!DOCTYPE html>
-<!-- saved from url=(0141)https://neoapp-b8d04eb44.dispatcher.us1.hana.ondemand.com/sap/bc/ui5_ui5/ui2/ushell/shells/abap/FioriLaunchpad.html?sap-theme=sap_belize_plus -->
-<html style="height: 100%; margin: 0">
+<html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Entrada al sistema</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
     <link
       rel="shortcut icon"
       href="https://neoapp-b8d04eb44.dispatcher.us1.hana.ondemand.com/sap/public/bc/ui2/logon/img/favicon.ico"
     />
-    <link rel="stylesheet" href="./index_files/library.css" />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="./Mis resultados_files/library.css"
+      id="sap-ui-theme-sap.fiori"
+      data-sap-ui-ready="true"
+    />
     <style>
       * { outline: none; }
       input, select, button { font-family: inherit; font-size: inherit; }
@@ -267,360 +278,279 @@
           100% { -webkit-transform: scale(1.25) rotate(288deg); }
       }
     </style>
-
-    <!--[if lte IE 8]>
-      <style>
-        .dummy {
-        }
-        .sapUiSraLoginPage {
-          margin-top: 120px;
-        }
-        .sapUiSraLoginPage .sapMInputBase {
-          height: 40px;
-          padding-top: 10px;
-          line-height: 40px;
-        }
-        .sapUiSraLoginPage .sapMInputBaseInner {
-          line-height: 40px;
-        }
-        .sapUiSraChangePwdForm .sapMInputBase#USERNAME_FIELD {
-          padding-top: 0px;
-        }
-        .sapUiSraChangePwdForm .sapMInputBaseInner {
-          line-height: 40px;
-        }
-        .sapUiBody {
-          filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="/sap/public/bc/ui2/logon/img/login_background_ie8.jpg",sizingMethod='scale');
-        }
-      </style>
-    <![endif]-->
-
-    <script>
-      function icf_system_cookiesDisabled() {
-        var cookie_field = document.getElementsByName('sap-system-login-cookie_disabled')[0];
-        var cookie_old = cookie_field.value;
-        document.cookie = 'Active=true;EXPIRES=Monday, 31-Dec-2023 23:59:59 GMT;';
-        if (document.cookie.indexOf('Active=true') >= 0) {
-          document.cookie = 'Active=true;EXPIRES=Monday, 31-Dec-2023 23:59:59 GMT;';
-          cookie_field.value = '';
-        } else {
-          cookie_field.value = 'X';
-        }
-        return cookie_field.value != cookie_old;
-      }
-      function icf_system_cookieCheck() {
-        if (!document.getElementsByName('sap-system-login-basic_auth')[0].value) {
-          if (icf_system_cookiesDisabled()) document.loginForm.submit();
-        }
-      }
-      function setFocusSafe(name) {
-        var el = document.getElementsByName(name)[0];
-        if (!el.disabled) el.focus();
-      }
-      var wait = 4000;
-      function selfSubmit() {
-        sapSL_Submit('');
-      }
-      function checkKey2Login(evt) {
-        var keyCode = document.layers ? evt.which : document.all ? evt.keyCode : evt.keyCode;
-        if (keyCode == 13) callSubmitLogin('onLogin');
-      }
-      function checkKey2Changepw(evt) {
-        var keyCode = document.layers ? evt.which : document.all ? evt.keyCode : evt.keyCode;
-        if (keyCode == 13) callSubmitChangepw('onDoChangePwd');
-      }
-      function callSubmitSysmsg(value) {
-        document.getElementsByName('sap-system-login-oninputprocessing')[0].value = value;
-        document.systemMessageForm.submit();
-      }
-      function callSubmitSessionQuery(value) {
-        document.getElementsByName('sap-system-login-oninputprocessing')[0].value = value;
-        document.sessionQuery.submit();
-      }
-      function callSubmitChangepw(value) {
-        if (value == 'onDoDeletePwd') {
-          document.getElementsByName('sap-system-login-oninputprocessing')[0].value = value;
-          document.changePWForm.submit();
-          return;
-        }
-        document.getElementsByName('sap-system-login-oninputprocessing')[0].value = value;
-        var sap_pwd = document.getElementsByName('sap-password')[0];
-        if (sap_pwd) sap_pwd.value = document.getElementsByName('sap-system-login-password')[0].value;
-        document.changePWForm.submit();
-      }
-      function callSubmitLogin(value) {
-        if (document.getElementsByName('sap-user')[0].value.length == 0) {
-          alert('Indique\x20un\x20usuario');
-          document.getElementsByName('sap-user')[0].focus();
-          return;
-        }
-        if (document.getElementsByName('sap-password')[0].value.length == 0) {
-          alert('Indique\x20una\x20clave\x20de\x20acceso');
-          document.getElementsByName('sap-password')[0].focus();
-          return;
-        }
-        document.getElementsByName('sap-system-login-oninputprocessing')[0].value = value;
-        sapSL_Protect();
-        document.loginForm.submit();
-      }
-      function sapSL_Submit(event) {
-        document.getElementsByName('sap-system-login-oninputprocessing')[0].value = event;
-        sapSL_Protect();
-        document.loginForm.submit();
-        return false;
-      }
-
-      function sapSL_LoginButton_onClick(obj, event) {
-        if (!sapUrMapi_Button_checkClick(obj.id, event)) return true;
-        return sapSL_LoginSubmit();
-      }
-
-      function sapSL_MessageBoxButton_onClick(obj, event) {
-        if (!sapUrMapi_Button_checkClick(obj.id, event)) return true;
-        return sapSL_Submit('');
-      }
-
-      function sapSL_Protect() {}
-      var sraLogin = {};
-      sraLogin.context = 'login';
-      sraLogin.languages = { lang: 'ES', direction: 'ltr', available: [] };
-      sraLogin.texts = {
-        error_user_initial: 'Indique\x20un\x20usuario',
-        error_pwd_initial: 'Indique\x20una\x20clave\x20de\x20acceso',
-        error_client_initial: 'Indique\x20un\x20mandante',
-      };
-      sraLogin.options = { selectLanguage: false, selectClient: false };
-      sraLogin.styles = { submit_disabled: '', changePassword_hidden: '', confirmPassword_error: 'sapUiSraTextError' };
-    </script>
-    <script src="./index_files/login.js.descarga"></script>
-
-    <script>
-      (function () {
-        var needActivation = true;
-        function frameActivate() {
-          var antiClickjack = document.getElementById('antiClickjack');
-          if (antiClickjack) {
-            antiClickjack.parentNode.removeChild(antiClickjack);
-          }
-        }
-        function registerHandler() {
-          if (window.addEventListener) {
-            window.addEventListener('message', handleMessage);
-          } else if (window.attachEvent) {
-            window.attachEvent('onmessage', handleMessage);
-          }
-        }
-        function unregisterHandler() {
-          if (window.removeEventListener) {
-            window.removeEventListener('message', handleMessage);
-          } else if (window.detachEvent) {
-            window.detachEvent('onmessage', handleMessage);
-          }
-        }
-        function handleMessage(event) {
-          var origin = window.location.protocol + '//' + window.location.host;
-          if (event.source && event.source !== window.parent) {
-            return;
-          }
-          if (event.origin === origin) {
-            frameActivate();
-            unregisterHandler();
-          }
-        }
-        try {
-          if (top === self || top.location.href) {
-            needActivation = false;
-            frameActivate();
-          }
-        } catch (e) {}
-        if (needActivation) {
-          registerHandler();
-          // Portal support: hosting page has same origin but performed domain relaxation
-          window.parent.postMessage('ClickJackProt:', '*');
-          window.parent.postMessage('SAPFramingControl:', '*');
-        }
-      })();
-    </script>
   </head>
-  <body class="sapUiBody" style="direction: ltr; background-image: url(./Mis\ resultados_files/login/login_background.jpg)">
-    <div id="LOGIN_PAGE" class="sapUiSraLoginView sapMPage sapUiSraLoginHeight2" onload="icf_system_cookieCheck ()">
-      <div class="sapUiSraBrandingBar sapThemeBrand-asBackgroundColor"></div>
-      <div class="sapUiSraHeader" style="display: none">
-        <div class="sapUiSraTitle"></div>
-        <div class="sapUiSraSubTitle"></div>
+  <style>
+    html {
+      margin: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-size: 100% auto;
+      background-attachment: scroll;
+      background-image: url(./Mis\ resultados_files/login/login_background.jpg);
+      background-color: #ffffff;
+      color: #000000;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 1rem;
+      height: 100%;
+      margin: 0;
+      width: 100%;
+    }
+    .container {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+    }
+    form {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+    }
+    .login-form {
+      width: 400px;
+    }
+    .login-form .user-bar {
+      width: 368px;
+    }
+    .login-page .user-bar {
+      height: 40px;
+      line-height: 40px;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    .user-bar {
+      display: block;
+      width: 100%;
+      position: relative;
+    }
+    .user-panelbg {
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+    .login-form .user-label {
+      width: 120px;
+    }
+    .login-page .user-label {
+      font-size: 1em;
+      white-space: normal;
+      line-height: 40px;
+      display: inline-block;
+    }
+    .user-label {
+      color: #000000;
+      font-size: 16px;
+      display: inline-block;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      cursor: text;
+    }
+    .login-form .user-input {
+      display: inline-block;
+      width: 248px;
+    }
+    .login-page .user-input {
+      margin: 0;
+      height: 40px;
+      padding: 0px;
+    }
+    .user-input {
+      box-sizing: border-box;
+      height: 3rem;
+      background: transparent;
+      position: relative;
+      display: inline-block;
+      vertical-align: top;
+    }
+    .login-page .input_user {
+      background-color: transparent;
+      border-style: none;
+      margin: 0;
+      padding: 0 8px;
+      width: 100%;
+      position: absolute;
+      top: 0px;
+      height: 40px;
+    }
+    .input_user {
+      box-sizing: border-box;
+      color: #000000;
+      background: #ffffff;
+      border: 1px solid #c0c0c0;
+      font-size: 0.875rem;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: normal;
+      height: 2.5rem;
+      padding: 0 0.75rem;
+    }
+    .psw-block {
+    }
+  </style>
+  <body>
+    <!--<form action="/" class="animate__animated animate__backInDown login-page">
+      <div class="login-form">
+        <div class="user-block user-bar user-panel user-panelbg">
+          <label for="user" class="user-label">Usuario</label>
+          <div class="user-input">
+            <input type="text" name="user" id="user" class="input_user" autocomplete="nop" />
+          </div>
+        </div>
+        <div class="psw-block">
+          <label for="psw">Clave de acceso</label>
+          <div>
+            <input type="password" name="psw" id="psw" class="input_psw" />
+          </div>
+        </div>
+        <button>Acceder al sistema</button>
+        <button>Modificar clave de acceso</button>
       </div>
-      <div class="sapUiSraFooter">
-        <div class="sapUiSraLoginLogo"><img src="./index_files/sap_logo.png" width="64" /></div>
-        <div class="sapUiSraLoginCopyright">Copyright © 2022 SAP SE. All rights reserved.</div>
+    </form>
+    <div class="container animate__animated animate__backInDown">
+      <div class="input-group" style="width: 368px">
+        <div class="input-group-text">Usuario</div>
+        <input type="text" class="form-control" id="autoSizingInputGroup" required />
       </div>
-      <div class="sapUiSraLoginPage" id="LOGIN_PAGE_FULL">
-        <form
-          class="sapUiSraLoginForm"
-          id="LOGIN_FORM"
-          name="loginForm"
-          action="https://neoapp-b8d04eb44.dispatcher.us1.hana.ondemand.com/sap/bc/ui5_ui5/ui2/ushell/shells/abap/FioriLaunchpad.html?sap-theme=sap_belize_plus"
-          method="post"
-          autocomplete="off"
-          data-bitwarden-watching="1"
-        >
-          <input type="hidden" name="sap-system-login-oninputprocessing" value="" />
-          <input type="hidden" name="sap-urlscheme" value="" />
-          <input type="hidden" name="sap-system-login" value="onLogin" />
-          <input type="hidden" name="sap-system-login-basic_auth" value="" />
-          <input type="hidden" name="sap-client" value="400" />
-          <input type="hidden" name="sap-language" value="ES" />
-          <input type="hidden" name="sap-accessibility" value="" />
-          <input type="hidden" name="sap-login-XSRF" value="81EcqfCWVpBrKxScYdU0BEmdVGjh29w04fHK2SBDXA4=" />
-          <input type="hidden" name="sap-system-login-cookie_disabled" value="" />
-          <input type="hidden" name="sap-hash" value="" />
-          <!-- in case of inline-block display spaces matter! -->
-          <div class="sapUiSraLoginInputBlock">
-            <div
-              id="USERNAME_BLOCK"
-              class="sapMBar sapMPanelBG sapMPanelBGTranslucent sapUiSraLoginHidden"
-              onclick="fioriLogin.setInputFocus(&#39;USERNAME_FIELD-inner&#39;)"
-            >
-              <label
-                id="USERNAME_LABEL"
-                for="USERNAME_FIELD-inner"
-                class="sapMLabel"
-                onclick="fioriLogin.setInputFocus(&#39;USERNAME_FIELD-inner&#39;)"
-                >Usuario</label
-              >
-              <div id="USERNAME_FIELD" class="sapMInputBase">
-                <input
-                  id="USERNAME_FIELD-inner"
-                  tabindex="1"
-                  type="text"
-                  class="sapMInputBaseInner"
-                  name="sap-user"
-                  maxlength="12 "
-                  inputmode="verbatim"
-                  autocomplete="off"
-                  autocorrect="off"
-                  autocapitalize="none"
-                />
-              </div>
-            </div>
-            <div
-              id="PASSWORD_BLOCK"
-              class="sapMBar sapMPanelBG sapMPanelBGTranslucent sapUiSraLoginHidden"
-              onclick="fioriLogin.setInputFocus(&#39;PASSWORD_FIELD-inner&#39;)"
-            >
-              <label
-                id="PASSWORD_LABEL"
-                for="PASSWORD_FIELD-inner"
-                class="sapMLabel"
-                onclick="fioriLogin.setInputFocus(&#39;PASSWORD_FIELD-inner&#39;)"
-                >Clave de acceso</label
-              >
-              <div id="PASSWORD_FIELD" class="sapMInputBase">
-                <input
-                  id="PASSWORD_FIELD-inner"
-                  tabindex="2"
-                  type="password"
-                  class="sapMInputBaseInner"
-                  name="sap-password"
-                  inputmode="verbatim"
-                />
-              </div>
-            </div>
-            <div id="LANGUAGE_BLOCK" class="sapMBar sapMPanelBG sapMPanelBGTranslucent sapUiSraLoginHidden" style="display: none">
-              <label id="LANGUAGE_LABEL" for="LANGUAGE_SELECT" class="sapMLabel">Idioma</label>
-              <div id="LANGUAGE_SELECT_BLOCK" class="sapMInputBase sapUiSraSelectBlock">
-                <select id="LANGUAGE_SELECT" tabindex="3" class="sapMInputBaseInner sapUiSraSelect"></select>
-              </div>
-            </div>
-            <div
-              id="CLIENT_BLOCK"
-              class="sapMBar sapMPanelBG sapMPanelBGTranslucent sapUiSraLoginHidden"
-              style="display: none"
-              onclick="fioriLogin.setInputFocus(&#39;CLIENT_FIELD-inner&#39;)"
-            >
-              <label
-                id="CLIENT_LABEL"
-                for="CLIENT_FIELD-inner"
-                class="sapMLabel"
-                onclick="fioriLogin.setInputFocus(&#39;CLIENT_FIELD-inner&#39;)"
-                >Mandante</label
-              >
-              <div id="CLIENT_FIELD" class="sapMInputBase">
-                <input
-                  id="CLIENT_FIELD-inner"
-                  tabindex="4"
-                  type="text"
-                  value="400"
-                  maxlength="3"
-                  size="3"
-                  class="sapMInputBaseInner"
-                  name="sap-client"
-                  inputmode="verbatim"
-                />
-              </div>
+      <div class="input-group" style="width: 368px">
+        <div class="input-group-text">Clave de acceso</div>
+        <input type="password" class="form-control" id="autoSizingInputGroup" required />
+      </div>
+    </div>-->
+    <div class="sapUiSraLoginPage" id="LOGIN_PAGE_FULL">
+      <form class="sapUiSraLoginForm" id="LOGIN_FORM" name="loginForm" autocomplete="off">
+        <input type="hidden" name="sap-system-login-oninputprocessing" value="" />
+        <input type="hidden" name="sap-urlscheme" value="" />
+        <input type="hidden" name="sap-system-login" value="onLogin" />
+        <input type="hidden" name="sap-system-login-basic_auth" value="" />
+        <input type="hidden" name="sap-client" value="400" />
+        <input type="hidden" name="sap-language" value="ES" />
+        <input type="hidden" name="sap-accessibility" value="" />
+        <input type="hidden" name="sap-login-XSRF" value="81EcqfCWVpBrKxScYdU0BEmdVGjh29w04fHK2SBDXA4=" />
+        <input type="hidden" name="sap-system-login-cookie_disabled" value="" />
+        <input type="hidden" name="sap-hash" value="" />
+        <!-- in case of inline-block display spaces matter! -->
+        <div class="sapUiSraLoginInputBlock">
+          <div id="USERNAME_BLOCK" class="sapMBar sapMPanelBG sapMPanelBGTranslucent sapUiSraLoginHidden" onclick="">
+            <label id="USERNAME_LABEL" for="USERNAME_FIELD-inner" class="sapMLabel" onclick="">Usuario</label>
+            <div id="USERNAME_FIELD" class="sapMInputBase">
+              <input
+                id="USERNAME_FIELD-inner"
+                tabindex="1"
+                type="text"
+                class="sapMInputBaseInner"
+                name="sap-user"
+                maxlength="12 "
+                inputmode="verbatim"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="none"
+              />
             </div>
           </div>
-          <div class="sapUiSraMessageContainer">
-            <div
-              id="LOGIN_ERROR_BLOCK"
-              tabindex="5"
-              class="sapMBar sapUiSraMessage sapUiSraMessageError"
-              style="visibility: hidden"
-            >
-              <label id="LOGIN_LBL_ERROR" class="sapThemeText"></label>
+          <div id="PASSWORD_BLOCK" class="sapMBar sapMPanelBG sapMPanelBGTranslucent sapUiSraLoginHidden">
+            <label id="PASSWORD_LABEL" for="PASSWORD_FIELD-inner" class="sapMLabel">Clave de acceso</label>
+            <div id="PASSWORD_FIELD" class="sapMInputBase">
+              <input
+                id="PASSWORD_FIELD-inner"
+                tabindex="2"
+                type="password"
+                class="sapMInputBaseInner"
+                name="sap-password"
+                inputmode="verbatim"
+              />
             </div>
           </div>
-          <div class="sapUiSraLoginButtonBlock">
-            <div class="sapUiSraBtnBlock sapUiSraLoginBtnBlock sapThemeBrand-asBackgroundColor">
-              <button
-                type="submit"
-                id="LOGIN_LINK"
-                tabindex="6"
-                class="sapMBtn sapMBtnEmphasized"
-                onclick="return fioriLogin.submitLogin(&#39;sap-system-login-oninputprocessing&#39;, &#39;onLogin&#39;)"
-              >
-                <div class="sapUiSraLogonAnimation" id="sapUiSraFlower">
-                  <div class="sapUiSraFlowerBlossom">
-                    <div class="sapUiSraFlowerLeafContainer sapUiSraFlowerLeafContainer1">
-                      <div class="sapUiSraFlowerLeaf sapUiSraFlowerLeaf1"></div>
-                    </div>
-                    <div class="sapUiSraFlowerLeafContainer sapUiSraFlowerLeafContainer2">
-                      <div class="sapUiSraFlowerLeaf sapUiSraFlowerLeaf2"></div>
-                    </div>
-                    <div class="sapUiSraFlowerLeafContainer sapUiSraFlowerLeafContainer3">
-                      <div class="sapUiSraFlowerLeaf sapUiSraFlowerLeaf3"></div>
-                    </div>
-                    <div class="sapUiSraFlowerLeafContainer sapUiSraFlowerLeafContainer4">
-                      <div class="sapUiSraFlowerLeaf sapUiSraFlowerLeaf4"></div>
-                    </div>
-                    <div class="sapUiSraFlowerLeafContainer sapUiSraFlowerLeafContainer5">
-                      <div class="sapUiSraFlowerLeaf sapUiSraFlowerLeaf5"></div>
-                    </div>
+          <div id="LANGUAGE_BLOCK" class="sapMBar sapMPanelBG sapMPanelBGTranslucent sapUiSraLoginHidden" style="display: none">
+            <label id="LANGUAGE_LABEL" for="LANGUAGE_SELECT" class="sapMLabel">Idioma</label>
+            <div id="LANGUAGE_SELECT_BLOCK" class="sapMInputBase sapUiSraSelectBlock">
+              <select id="LANGUAGE_SELECT" tabindex="3" class="sapMInputBaseInner sapUiSraSelect"></select>
+            </div>
+          </div>
+          <div
+            id="CLIENT_BLOCK"
+            class="sapMBar sapMPanelBG sapMPanelBGTranslucent sapUiSraLoginHidden"
+            style="display: none"
+            onclick="fioriLogin.setInputFocus('CLIENT_FIELD-inner')"
+          >
+            <label
+              id="CLIENT_LABEL"
+              for="CLIENT_FIELD-inner"
+              class="sapMLabel"
+              onclick="fioriLogin.setInputFocus('CLIENT_FIELD-inner')"
+              >Mandante</label
+            >
+            <div id="CLIENT_FIELD" class="sapMInputBase">
+              <input
+                id="CLIENT_FIELD-inner"
+                tabindex="4"
+                type="text"
+                value="400"
+                maxlength="3"
+                size="3"
+                class="sapMInputBaseInner"
+                name="sap-client"
+                inputmode="verbatim"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="sapUiSraMessageContainer">
+          <div
+            id="LOGIN_ERROR_BLOCK"
+            tabindex="5"
+            class="sapMBar sapUiSraMessage sapUiSraMessageError"
+            style="visibility: hidden"
+          >
+            <label id="LOGIN_LBL_ERROR" class="sapThemeText"></label>
+          </div>
+        </div>
+        <div class="sapUiSraLoginButtonBlock">
+          <div class="sapUiSraBtnBlock sapUiSraLoginBtnBlock sapThemeBrand-asBackgroundColor">
+            <button
+              type="submit"
+              id="LOGIN_LINK"
+              tabindex="6"
+              class="sapMBtn sapMBtnEmphasized"
+              onclick="return fioriLogin.submitLogin('sap-system-login-oninputprocessing', 'onLogin')"
+            >
+              <div class="sapUiSraLogonAnimation" id="sapUiSraFlower">
+                <div class="sapUiSraFlowerBlossom">
+                  <div class="sapUiSraFlowerLeafContainer sapUiSraFlowerLeafContainer1">
+                    <div class="sapUiSraFlowerLeaf sapUiSraFlowerLeaf1"></div>
+                  </div>
+                  <div class="sapUiSraFlowerLeafContainer sapUiSraFlowerLeafContainer2">
+                    <div class="sapUiSraFlowerLeaf sapUiSraFlowerLeaf2"></div>
+                  </div>
+                  <div class="sapUiSraFlowerLeafContainer sapUiSraFlowerLeafContainer3">
+                    <div class="sapUiSraFlowerLeaf sapUiSraFlowerLeaf3"></div>
+                  </div>
+                  <div class="sapUiSraFlowerLeafContainer sapUiSraFlowerLeafContainer4">
+                    <div class="sapUiSraFlowerLeaf sapUiSraFlowerLeaf4"></div>
+                  </div>
+                  <div class="sapUiSraFlowerLeafContainer sapUiSraFlowerLeafContainer5">
+                    <div class="sapUiSraFlowerLeaf sapUiSraFlowerLeaf5"></div>
                   </div>
                 </div>
-                <span class="sapMBtnContent sapMLabelBold sapUiSraDisplayBeforeLogin">Acceder al sistema</span
-                ><span class="sapMBtnContent sapMLabelBold sapUiSraDisplayAfterLogin">Acceder al sistema</span>
-              </button>
-            </div>
-            <div class="sapUiSraBtnBlock sapUiSraLoginHidden sapThemeBarBG">
-              <button
-                type="button"
-                id="CHANGE_PASSWORD_LINK"
-                tabindex="7"
-                class="sapMBtn sapMBtnDefault"
-                onclick="fioriLogin.submitLogin(&#39;sap-system-login-oninputprocessing&#39;, &#39;onChangePwd&#39;, true)"
-              >
-                <span class="sapMBtnContent sapMLabelBold">Modificar clave acceso</span>
-              </button>
-            </div>
+              </div>
+              <span class="sapMBtnContent sapMLabelBold sapUiSraDisplayBeforeLogin">Acceder al sistema</span
+              ><span class="sapMBtnContent sapMLabelBold sapUiSraDisplayAfterLogin">Acceder al sistema</span>
+            </button>
           </div>
-        </form>
-      </div>
+          <div class="sapUiSraBtnBlock sapUiSraLoginHidden sapThemeBarBG">
+            <button
+              type="button"
+              id="CHANGE_PASSWORD_LINK"
+              tabindex="7"
+              class="sapMBtn sapMBtnDefault"
+              onclick="fioriLogin.submitLogin('sap-system-login-oninputprocessing', 'onChangePwd', true)"
+            >
+              <span class="sapMBtnContent sapMLabelBold">Modificar clave acceso</span>
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
-    <script>
-      setTimeout(function () {
-        document.body.className = 'sapUiBody';
-      }, 50);
-    </script>
   </body>
-  <div id="vimeo-record-extension"></div>
 </html>
